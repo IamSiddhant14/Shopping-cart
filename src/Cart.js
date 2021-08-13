@@ -17,6 +17,4 @@ class Cart extends React.Component{
 
 } 
 
-
-
 export default Cart;
