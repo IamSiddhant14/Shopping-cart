@@ -3,91 +3,96 @@ import cartItem from './CartItems';
 import CartItem from './CartItems';
 
 
-class Cart extends React.Component{
+const Cart =(props)=>{
 
     //We should always modifie the state from a place where the state relis
     //Whether you declare a component as a function or a class, it must never modify its own props. A component cannot update its own props but can update its state and the props of its children.
     //Props in React are read-only data that can be passed and used by the various components into the application. Props are generally a static value, objects, array, or an event handler.
 
-    constructor(){
-        super()
-        this.state = {
 
-            products:[
-                {
-                    price: 999,
-                    title: 'Mobile Phone',
-                    qty: 1,
-                    img: '',
-                    id: 1
-                },
-                {
-                    price: 2000,
-                    title: 'watch',
-                    qty: 1,
-                    img: '',
-                    id: 2
-                },
-                {
-                    price: 10000,
-                    title: 'laptop',
-                    qty: 1,
-                    img: '',
-                    id: 3
-                }
-            ]
-
-        }
-    }
-
-    handleDeleteProduct=(id)=>{
-        const {products} = this.state;
-        const items = products.filter((item)=>
-            item.id !== id
-
-        );
-
-        this.setState({
-            products :items
-        })
-    }
-
-
-    handleIncreaseQuantity = (product)=>{
-        console.log('Please increase the qty of', product);
-        const{products}= this.state;
-        const index = products.indexOf(product);
-
-        products[index].qty +=1;
-        this.setState({
-            products:products
-            //or simply "products" will also work
-        })
+//Tje below code is commented as we are migrating the state from cart to the app
 
 
 
-    }   
+    // constructor(){
+    //     super()
+    //     this.state = {
 
-    handleDecreaseQuantity=(product)=>{
-        console.log('Please decrease the qty of', product);
-        const {products}= this.state;
-        const index = products.indexOf(product);
-        if(products[index].qty == 1){
-            this.handleDeleteProduct(products[index].id)
-        }
-        // if(products[index].qty == 1){
-        //     return 
-        // }
-        products[index].qty -= 1;
-        this.setState({
-            products:products
-        })
+    //         products:[
+    //             {
+    //                 price: 999,
+    //                 title: 'Mobile Phone',
+    //                 qty: 1,
+    //                 img: '',
+    //                 id: 1
+    //             },
+    //             {
+    //                 price: 2000,
+    //                 title: 'watch',
+    //                 qty: 1,
+    //                 img: '',
+    //                 id: 2
+    //             },
+    //             {
+    //                 price: 10000,
+    //                 title: 'laptop',
+    //                 qty: 1,
+    //                 img: '',
+    //                 id: 3
+    //             }
+    //         ]
 
-    }
+    //     }
+    // }
+
+    // handleDeleteProduct=(id)=>{
+    //     const {products} = this.state;
+    //     const items = products.filter((item)=>
+    //         item.id !== id
+
+    //     );
+
+    //     this.setState({
+    //         products :items
+    //     })
+    // }
 
 
-    render(){
-        const {products} = this.state;
+    // handleIncreaseQuantity = (product)=>{
+    //     console.log('Please increase the qty of', product);
+    //     const{products}= this.state;
+    //     const index = products.indexOf(product);
+
+    //     products[index].qty +=1;
+    //     this.setState({
+    //         products:products
+    //         //or simply "products" will also work
+    //     })
+
+
+
+    // }   
+
+    // handleDecreaseQuantity=(product)=>{
+    //     console.log('Please decrease the qty of', product);
+    //     const {products}= this.state;
+    //     const index = products.indexOf(product);
+    //     if(products[index].qty == 1){
+    //         this.handleDeleteProduct(products[index].id)
+    //     }
+    //     // if(products[index].qty == 1){
+    //     //     return 
+    //     // }
+    //     products[index].qty -= 1;
+    //     this.setState({
+    //         products:products
+    //     })
+
+    // }
+
+
+    
+        const {products} = props;
         return (
            <div className="cart">
                {products.map((product)=>{
@@ -97,9 +102,9 @@ class Cart extends React.Component{
                        // to access a particular among them we use "this.props.<name_of_feild>"
                        product={product} 
                        key={product.id}
-                       onIncreaseQuantity={this.handleIncreaseQuantity}
-                       onDecreaseQuantity={this.handleDecreaseQuantity}
-                       onDeleteProduct={this. handleDeleteProduct}
+                       onIncreaseQuantity={props.onIncreaseQuantity}
+                       onDecreaseQuantity={props.onDecreaseQuantity}
+                       onDeleteProduct={props. onDeleteProduct}
                        isloggedin={false}
                        jsx={<h1>Test</h1>}
                        comp={<CartItem/>}
@@ -110,7 +115,7 @@ class Cart extends React.Component{
 
             </div>
         ) 
-    }
+    
  
 } 
 

@@ -1,6 +1,10 @@
 import React from 'react';
 
 const cartItem =(props)=>{
+         
+//We could change the class component to function component if it doesnt have any states
+// class Navbar extends React.Component
+// By default props is been passed default as an argument in the function
 
 
     
