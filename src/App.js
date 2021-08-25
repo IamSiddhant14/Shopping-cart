@@ -66,7 +66,7 @@ class App extends React.Component {
        this.db
     
     .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
-    //when ever something changes in the product collection this callback function is been called
+    //when ever something changes in the product collection(in the DB) this callback function is been called
     .onSnapshot((snapshot)=>{ //this snapshot is the snapshot of the database at that particular time
       console.log(snapshot)
       snapshot.docs.map((doc)=>{// This will iterate over the documents in the collection
@@ -105,15 +105,29 @@ class App extends React.Component {
     const { products } = this.state;
     const index = products.indexOf(product);
 
-    products[index].qty += 1;
-    this.setState({
-      products: products
-      //or simply "products" will also work
-    })
+    // products[index].qty += 1;
+    // this.setState({
+    //   products: products
+    //   //or simply "products" will also work
+    // })
+    
 
+    // const docRef = this.db.collection('products').doc(products[index].id);
+    // console.log(docRef.id)
+    // docRef
+    //   .update({
+    //     qty: products[index].qty + 1
+    //   })
 
+    //   .then(()=>{
+    //     console.log('Updated successfully')
+    //   })
 
-  }
+    //   .catch((error)=>{
+    //     console.log('Errorr', error);
+    //   });
+
+  };
 
   handleDecreaseQuantity = (product) => {
     console.log('Please decrease the qty of', product);
@@ -152,7 +166,7 @@ getCartTotal = () =>{
 addProducts =()=>{
   this.db
      .collection('products')
-     .add({//this will basicially give us a promise
+     .add({//this will basicially give us a promise and add product to the DB
        img:'',
        price: 900,
        qty: 3,
