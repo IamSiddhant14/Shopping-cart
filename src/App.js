@@ -90,9 +90,7 @@ class App extends React.Component {
     if (products[index].qty == 1) {
       this.handleDeleteProduct(products[index].id)
     }
-    // if(products[index].qty == 1){
-    //     return 
-    // }
+
     products[index].qty -= 1;
     this.setState({
       products: products

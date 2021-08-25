@@ -1,5 +1,4 @@
 import React from 'react';
-import cartItem from './CartItems';
 import CartItem from './CartItems';
 
 
@@ -91,7 +90,7 @@ const Cart =(props)=>{
     // }
 
 
-    
+    // desrealizing 
         const {products} = props;
         return (
            <div className="cart">
@@ -104,7 +103,7 @@ const Cart =(props)=>{
                        key={product.id}
                        onIncreaseQuantity={props.onIncreaseQuantity}
                        onDecreaseQuantity={props.onDecreaseQuantity}
-                       onDeleteProduct={props. onDeleteProduct}
+                       onDeleteProduct={props.onDeleteProduct}
                        isloggedin={false}
                        jsx={<h1>Test</h1>}
                        comp={<CartItem/>}
