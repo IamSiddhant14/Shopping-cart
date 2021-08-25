@@ -1,5 +1,7 @@
 import React from 'react';
 import './index.css';
+import firebase from 'firebase/app'
+import 'firebase/firestore';
 import Cart from './Cart';
 import Navbar from './Navbar';
 
@@ -27,33 +29,38 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-
-      products: [
-        {
-          price: 999,
-          title: 'Mobile Phone',
-          qty: 1,
-          img: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1901&q=80',
-          id: 1
-        },
-        {
-          price: 2000,
-          title: 'watch',
-          qty: 1,
-          img: 'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=759&q=80',
-          id: 2
-        },
-        {
-          price: 10000,
-          title: 'laptop',
-          qty: 1,
-          img: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80',
-          id: 3
-        }
-      ]
-
+      products: [],
+      loading:true
     }
   }
+
+  componentDidMount(){
+    firebase
+      .firestore()//we are getting the data from firestone
+      
+      .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
+      
+      .get()//this will return me a promise as resolve
+     
+      .then((snapshot)=>{ //this snapshot is the snapshot of the database at that particular time
+        console.log(snapshot)
+        snapshot.docs.map((doc)=>{// This will iterate over the documents in the collection
+          
+          console.log(doc.data())//this will print all the fields/data in the documnet as an object
+
+        });
+        const products = snapshot.docs.map((doc) =>{
+          const data = doc.data();
+          data['id']=doc.id//this is the id of the document
+          return doc.data(); // This would return all the documents with the fields as an object
+        })
+        this.setState({
+          products,
+          loading:false
+        })
+      })
+  }
+
 
   handleDeleteProduct = (id) => {
     const { products } = this.state;
@@ -120,7 +127,7 @@ getCartTotal = () =>{
 
 
   render() {
-    const {products} = this.state;
+    const {products,loading} = this.state;
     return (
       <div className="App">
         <Navbar coun={this.getCartCount()} />
@@ -130,6 +137,7 @@ getCartTotal = () =>{
           onDecreaseQuantity={this.handleDecreaseQuantity}
           onDeleteProduct={this.handleDeleteProduct} 
         />
+        {loading && <h1>Loading Products...</h1>}
         <div>TOTAl :{this.getCartTotal()}</div>
       </div>
     );
