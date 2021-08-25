@@ -35,30 +35,53 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    firebase
-      .firestore()//we are getting the data from firestone
+    // firebase
+    //   .firestore()//we are getting the data from firestone
       
-      .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
+    //   .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
       
-      .get()//this will return me a promise as resolve
+    //   .get()//this will return me a promise as resolve
      
-      .then((snapshot)=>{ //this snapshot is the snapshot of the database at that particular time
-        console.log(snapshot)
-        snapshot.docs.map((doc)=>{// This will iterate over the documents in the collection
+    //   .then((snapshot)=>{ //this snapshot is the snapshot of the database at that particular time
+    //     console.log(snapshot)
+    //     snapshot.docs.map((doc)=>{// This will iterate over the documents in the collection
           
-          console.log(doc.data())//this will print all the fields/data in the documnet as an object
+    //       console.log(doc.data())//this will print all the fields/data in the documnet as an object
 
-        });
-        const products = snapshot.docs.map((doc) =>{
-          const data = doc.data();
-          data['id']=doc.id//this is the id of the document
-          return doc.data(); // This would return all the documents with the fields as an object
-        })
-        this.setState({
-          products,
-          loading:false
-        })
+    //     });
+    //     const products = snapshot.docs.map((doc) =>{
+    //       const data = doc.data();
+    //       data['id']=doc.id//this is the id of the document
+    //       return doc.data(); // This would return all the documents with the fields as an object
+    //     })
+    //     this.setState({
+    //       products,
+    //       loading:false
+    //     })
+    //   })
+
+    firebase
+    .firestore()//we are getting the data from firestone
+    
+    .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
+    //when ever something changes in the product collection this callback function is been called
+    .onSnapshot((snapshot)=>{ //this snapshot is the snapshot of the database at that particular time
+      console.log(snapshot)
+      snapshot.docs.map((doc)=>{// This will iterate over the documents in the collection
+        
+        console.log(doc.data())//this will print all the fields/data in the documnet as an object
+
+      });
+      const products = snapshot.docs.map((doc) =>{
+        const data = doc.data();
+        data['id']=doc.id//this is the id of the document
+        return doc.data(); // This would return all the documents with the fields as an object
       })
+      this.setState({
+        products,
+        loading:false
+      })
+    })
   }
 
 
