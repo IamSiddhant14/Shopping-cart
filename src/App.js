@@ -32,6 +32,7 @@ class App extends React.Component {
       products: [],
       loading:true
     }
+    this.db = firebase.firestore();
   }
 
   componentDidMount(){
@@ -60,8 +61,9 @@ class App extends React.Component {
     //     })
     //   })
 
-    firebase
-    .firestore()//we are getting the data from firestone
+    // firebase
+    // .firestore()//we are getting the data from firestone
+       this.db
     
     .collection('products')//name of collection on firebase is products, this will return us the refrence of that connection 
     //when ever something changes in the product collection this callback function is been called
@@ -147,13 +149,30 @@ getCartTotal = () =>{
   return cartTotal;
 }
  
+addProducts =()=>{
+  this.db
+     .collection('products')
+     .add({//this will basicially give us a promise
+       img:'',
+       price: 900,
+       qty: 3,
+       title: 'washing machine'
+     })
+     .then((docRef)=>{//Where docRef is the refrence of this document 
+         console.log('product is been added',docRef)
+     })
+     .catch((error)=>{
+       console.log('error :', error);
+     })
 
+}
 
   render() {
     const {products,loading} = this.state;
     return (
       <div className="App">
         <Navbar coun={this.getCartCount()} />
+        <button onClick={this.addProducts}>Add a product</button>
         <Cart
           products={products}
           onIncreaseQuantity={this.handleIncreaseQuantity}
